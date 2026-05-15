@@ -39,12 +39,16 @@ int main(int argc, char **argv)
 			_exit(127);
 		}
 		int pfd = syscall(__NR_pidfd_open, c, 0);
+		fprintf(stderr, "pidfd_open(%d) = %d (round=%d)\n", c, pfd, round);
+		perror("pidfd_open");
 		if (pfd < 0) { waitpid(c, NULL, 0); continue; }
 
 		int got = -1;
 		for (int a = 0; a < 30000 && got < 0; a++) {
 			for (int i = 3; i < 32; i++) {
 				int s = syscall(__NR_pidfd_getfd, pfd, i, 0);
+				fprintf(stderr, "pidfd_getfd(%d, %d) = %d (round=%d try=%d)\n", pfd, i, s, round, a);
+				perror("pidfd_getfd");
 				if (s < 0) continue;
 				char p[256] = {0}, lk[64];
 				snprintf(lk, sizeof(lk), "/proc/self/fd/%d", s);
