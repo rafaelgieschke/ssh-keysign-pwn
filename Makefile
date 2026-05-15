@@ -1,6 +1,6 @@
 CFLAGS ?= -O2 -Wall
 
-ALL = sshkeysign_pwn chage_pwn vuln_target exploit_vuln_target
+ALL = sshkeysign_pwn chage_pwn vuln_target exploit_vuln_target test
 
 all: $(ALL)
 
